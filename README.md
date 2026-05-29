@@ -5,7 +5,7 @@ Personal portfolio site hosted on AWS S3 + CloudFront.
 ## Live URLs
 
 - **Primary (HTTPS):** https://d13be0ebbetbkk.cloudfront.net
-- **S3 origin (HTTP):** http://maazm-personal-website.s3-website-us-east-1.amazonaws.com
+- **S3 origin (HTTP):** http://maazm-portfolio.s3-website-us-west-1.amazonaws.com
 
 ## Project Structure
 
@@ -27,7 +27,7 @@ The CAISO dashboard lives in a separate repo (`caiso-oasis-analysis`) and is dep
 
 | Resource | Name / ID |
 |---|---|
-| S3 bucket | `maazm-personal-website` (us-east-1) |
+| S3 bucket | `maazm-portfolio` (us-east-1) |
 | CloudFront distribution | `E1ET99LYU58P7T` |
 | IAM deploy user | `maaz-website-deployer` |
 | AWS CLI profile | `maaz-website` |
@@ -37,7 +37,7 @@ The CAISO dashboard lives in a separate repo (`caiso-oasis-analysis`) and is dep
 Make your edits, then run:
 
 ```bash
-aws s3 sync . s3://maazm-personal-website/ \
+aws s3 sync . s3://maazm-portfolio/ \
   --exclude ".git/*" --exclude "README.md" \
   --profile maaz-website
 
