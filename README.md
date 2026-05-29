@@ -1,4 +1,4 @@
-# Personal Website — Muhammad Maaz
+# Personal Website | Muhammad Maaz
 
 Personal portfolio site hosted on AWS S3 + CloudFront.
 
@@ -65,9 +65,9 @@ aws configure --profile maaz-website
 
 ## Sections (in order)
 
-1. **Hero** — Name, title, links
-2. **Projects** — CAISO Analysis, EMS Simulator, AWS EDA Infra, C++ coursework
-3. **Experience** — UmmahSoft, KiloWatts for Humanity, Masjid Muhajireen
-4. **Skills** — Power Systems, Programming, Cloud & DevOps
-5. **About** — Bio
-6. **Contact** — Email, LinkedIn, GitHub
+1. **Hero** - Name, title, links
+2. **Projects** - CAISO Analysis, EMS Simulator, AWS EDA Infra, C++ coursework
+3. **Experience** - UmmahSoft, KiloWatts for Humanity, Masjid Muhajireen
+4. **Skills** - Power Systems, Programming, Cloud & DevOps
+5. **About** - Bio
+6. **Contact** - Email, LinkedIn, GitHub
