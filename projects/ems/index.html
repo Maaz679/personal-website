@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Power Grid EMS Simulator | Muhammad Maaz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --green: #22c55e;
+      --green-dim: #16a34a;
+      --green-glow: rgba(34, 197, 94, 0.12);
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #1a1a1a;
+      --border: #222222;
+      --text: #e5e7eb;
+      --muted: #6b7280;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(10,10,10,0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 100;
+    }
+    .nav-back {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--muted);
+      font-size: 0.875rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--green); }
+    .nav-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--green);
+    }
+
+    /* HERO */
+    .hero {
+      padding: 4rem 2rem 3rem;
+      max-width: 900px;
+      margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--green);
+      background: var(--green-glow);
+      border: 1px solid var(--green-dim);
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      color: #9ca3af;
+      font-size: 1.05rem;
+      line-height: 1.8;
+      max-width: 680px;
+      margin-bottom: 1.5rem;
+    }
+    .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .tag {
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--green);
+      background: var(--green-glow);
+      border: 1px solid rgba(34,197,94,0.2);
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+    .hero-links { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .btn svg { width: 16px; height: 16px; }
+    .btn-outline {
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    .btn-outline:hover { border-color: var(--green); color: var(--green); background: var(--green-glow); }
+
+    /* CONTENT */
+    .content { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+
+    .section { margin-bottom: 4rem; }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+    .section h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    .section p {
+      color: #9ca3af;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* DIAGRAM */
+    .diagram-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      transition: border-color 0.2s;
+    }
+    .diagram-card:hover { border-color: var(--green-dim); }
+    .diagram-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .diagram-header span {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .diagram-header .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .diagram-body {
+      padding: 2rem;
+      background: #fff;
+    }
+    .diagram-body svg, .diagram-body img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .diagram-caption {
+      padding: 1rem 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* FEATURE GRID */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .feature-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+    .feature-card h4 {
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--green);
+    }
+    .feature-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--green); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../../index.html" class="nav-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Back to Portfolio
+    </a>
+    <span class="nav-title">powergrid-ems-simulator</span>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-badge">Power Systems · Python</div>
+    <h1>Power Grid EMS Simulator</h1>
+    <p>
+      A from-scratch energy management system that simulates minute-by-minute dispatch decisions across solar generation, battery storage, and mixed electrical loads. Built to understand how real grid control logic handles competing constraints: cost, reliability, and renewable integration.
+    </p>
+    <div class="tag-list">
+      <span class="tag">Python 3.10+</span>
+      <span class="tag">NumPy</span>
+      <span class="tag">SciPy</span>
+      <span class="tag">matplotlib</span>
+      <span class="tag">Optimization</span>
+      <span class="tag">EMS</span>
+    </div>
+    <div class="hero-links">
+      <a href="https://github.com/Maaz679/powergrid-ems-simulator" target="_blank" class="btn btn-outline">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+        View on GitHub
+      </a>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-label">Architecture</div>
+      <h2>System Design</h2>
+      <p>The simulator separates physical models from control logic. Each component (solar array, battery bank, load types) maintains its own state and exposes a simple interface to the dispatch controller. This mirrors how real EMS platforms are structured.</p>
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <div class="dot"></div>
+          <span>system-architecture.svg</span>
+        </div>
+        <div class="diagram-body">
+          <img src="system-architecture.svg" alt="System Architecture Diagram" />
+        </div>
+        <div class="diagram-caption">Component layout showing physical models, control layer, and data flow between subsystems.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Control Logic</div>
+      <h2>Simulation Loop</h2>
+      <p>Each time step, the controller collects current state from all components, solves a dispatch optimization, and issues setpoints. The loop runs at one-minute resolution to capture fast dynamics like battery ramp rates and solar irradiance changes.</p>
+      <div class="diagram-card">
+        <div class="diagram-header">
+          <div class="dot"></div>
+          <span>simulation-loop.svg</span>
+        </div>
+        <div class="diagram-body">
+          <img src="simulation-loop.svg" alt="Simulation Loop Diagram" />
+        </div>
+        <div class="diagram-caption">Minute-by-minute dispatch loop: sense → decide → actuate → advance time.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">What I Learned</div>
+      <h2>Key Takeaways</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h4>Physical vs. Control Separation</h4>
+          <p>Keeping battery SOC physics separate from dispatch logic made the codebase much easier to reason about, the same lesson real SCADA systems are built on.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Duck Curve in Practice</h4>
+          <p>Simulating solar + battery together makes the duck curve tangible: midday oversupply charges storage, which then covers the steep evening ramp.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Constraint Cascades</h4>
+          <p>A battery ramp rate limit can cause a load shed several minutes later. Tracing those cascades manually built real intuition for grid stability margins.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Optimization Tradeoffs</h4>
+          <p>Minimizing cost vs. minimizing grid imports are often in tension. Encoding both as objectives revealed why real grid operators use hierarchical control.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Muhammad Maaz · <a href="https://github.com/Maaz679/powergrid-ems-simulator" target="_blank">GitHub</a> · <a href="../../index.html">Portfolio</a></p>
+  </footer>
+
+</body>
+</html>
