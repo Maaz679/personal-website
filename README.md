@@ -27,7 +27,7 @@ The CAISO dashboard lives in a separate repo (`caiso-oasis-analysis`) and is dep
 
 | Resource | Name / ID |
 |---|---|
-| S3 bucket | `maazm-portfolio` (us-east-1) |
+| S3 bucket | `maazm-portfolio` (us-west-1) |
 | CloudFront distribution | `E1ET99LYU58P7T` |
 | IAM deploy user | `maaz-website-deployer` |
 | AWS CLI profile | `maaz-website` |
@@ -60,7 +60,7 @@ Then configure the AWS CLI with the `maaz-website` IAM credentials:
 ```bash
 aws configure --profile maaz-website
 # Enter the Access Key ID and Secret from AWS IAM console
-# Region: us-east-1
+# Region: us-west-1
 ```
 
 ## Sections (in order)
