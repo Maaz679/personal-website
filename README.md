@@ -28,9 +28,14 @@ The CAISO dashboard lives in a separate repo (`caiso-oasis-analysis`) and is dep
 | Resource | Name / ID |
 |---|---|
 | S3 bucket | `maazm-portfolio` (us-west-1) |
+| S3 log bucket | `maazm-portfolio-logs` (us-west-1) |
 | CloudFront distribution | `E1ET99LYU58P7T` |
-| IAM deploy user | `maaz-website-deployer` |
-| AWS CLI profile | `maaz-website` |
+| IAM deploy user | `maaz-website-deployer` (upload files only) |
+| IAM admin user | `maaz-website-admin` (S3 + CloudFront + IAM + Budgets) |
+| AWS CLI deploy profile | `maaz-website` |
+| AWS CLI admin profile | `maaz-website-admin` |
+
+Use `maaz-website` for day-to-day deploys. Use `maaz-website-admin` for infrastructure changes (CloudFront config, bucket settings). Use `terraform-admin` only for account-level access.
 
 ## Deploying Changes
 
@@ -43,7 +48,8 @@ aws s3 sync . s3://maazm-portfolio/ \
 
 aws cloudfront create-invalidation \
   --distribution-id E1ET99LYU58P7T \
-  --paths "/*"
+  --paths "/*" \
+  --profile maaz-website-admin
 ```
 
 The CloudFront invalidation clears the cache so changes go live immediately. Without it, visitors may see the old version for up to 24 hours.
@@ -55,11 +61,15 @@ git clone https://github.com/Maaz679/personal-website.git
 cd personal-website
 ```
 
-Then configure the AWS CLI with the `maaz-website` IAM credentials:
+Configure both AWS CLI profiles with credentials from the IAM console:
 
 ```bash
 aws configure --profile maaz-website
-# Enter the Access Key ID and Secret from AWS IAM console
+# Access Key: maaz-website-deployer key (upload only)
+# Region: us-west-1
+
+aws configure --profile maaz-website-admin
+# Access Key: maaz-website-admin key (infrastructure)
 # Region: us-west-1
 ```
 
