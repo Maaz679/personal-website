@@ -73,6 +73,14 @@ aws configure --profile maaz-website-admin
 # Region: us-west-1
 ```
 
+## Outstanding / Next Steps
+
+- **Resume** - no PDF download on the site yet, high priority for recruiters
+- **Custom domain** - still on `d13be0ebbetbkk.cloudfront.net`, next step is buying a domain (namecheap.com, ~$10/yr for .com) and pointing it to the CloudFront distribution
+- **CAISO + EMS repos** - neither has a GitHub description or topic tags set, add those in repo Settings
+- **EMS Simulator** - `src/` is mostly empty, fleshing out one module (battery, solar) would make it a real project
+- **C++ projects** - Connect Four and Stochastic Solitaire are intentionally kept off the main site, but READMEs are now in both repos
+
 ## Sections (in order)
 
 1. **Hero** - Name, title, links
